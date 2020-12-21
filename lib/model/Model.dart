@@ -4,7 +4,7 @@ import 'package:rows_and_cols/entity/Post.dart';
 class Model extends ChangeNotifier {
   // static var fakeDbStories = _initPosts(); // todo we should take it from db
   List<Post> _saved = [];
-  List<Post> _seen = [];
+  //List<Post> _seen = [];
 
 
   void save(Post post) {
@@ -12,10 +12,10 @@ class Model extends ChangeNotifier {
     notifyListeners();
   }
 
-  void see(Post post) {
-    _seen.add(post);
-    // notifyListeners();
-  }
+  // void see(Post post) {
+  //   _seen.add(post);
+  //   // notifyListeners();
+  // }
 
   List<Post> get saved => _saved;
 

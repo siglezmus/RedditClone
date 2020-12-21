@@ -7,7 +7,7 @@ import 'model/Model.dart';
 
 void main() {
   runApp(MyApp());
-}
+} 
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -21,14 +21,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
             title: 'reddit',
             home: MyHomePage()));
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   debugShowCheckedModeBanner: false,
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.grey,
-    //   ),
-    //   home: MyHomePage(),
-    // );
+
   }
 }
 
@@ -50,9 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
     }
 
     Post _buildPostItem() {
-      final model = Provider.of<Model>(context, listen: false);
+      //final model = Provider.of<Model>(context, listen: false);
       Post p = new Post();
-      model.see(p);
+      //model.see(p);
       return p;
     }
 
