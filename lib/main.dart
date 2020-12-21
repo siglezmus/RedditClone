@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rows_and_cols/screens/SavedScreen.dart';
+
+import 'entity/Post.dart';
+import 'model/Model.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,14 +13,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-      ),
-      home: MyHomePage(),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<Model>(
+              create: (context) => Model()),
+        ],
+        child: MaterialApp(
+            title: 'reddit',
+            home: MyHomePage()));
+    // return MaterialApp(
+    //   title: 'Flutter Demo',
+    //   debugShowCheckedModeBanner: false,
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.grey,
+    //   ),
+    //   home: MyHomePage(),
+    // );
   }
 }
 
@@ -28,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = new TextEditingController();
-    final _feed = <Widget>[];
+    final _feed = <Post>[];
 
     Widget _buildRow(Widget feedItem) {
       return ListTile(
@@ -36,111 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    Widget _buildUpperPart() {
-      return (Row(
-        children: [
-          Expanded(
-            child: Icon(Icons.check_circle),
-            flex: 1,
-          ),
-          Expanded(
-            child: Column(
-              children: [
-                Row(
-                  children: [Text("r/memes")],
-                ),
-                Row(
-                  children: [Text("Posted by u/siglezmus * 2h * i.redd.it")],
-                ),
-              ],
-            ),
-            flex: 7,
-          ),
-          Expanded(
-            child: Icon(Icons.more),
-          ),
-        ],
-      ));
-    }
-
-    Widget _buildContentPart() {
-      return (Image.asset(
-        'assets/images/bg_image1.png',
-        fit: BoxFit.contain,
-      ));
-    }
-
-    Widget _buildTitlePart() {
-      return (Container(
-        child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            'Funi meme',
-            overflow: TextOverflow.ellipsis,
-          ),
-          
-        ],
-      ),
-      ));
-    }
-
-    Widget _buildBottomPart() {
-      return (Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            //upvote downvote counter
-            children: [
-              Icon(Icons.arrow_upward),
-              Text('1.4k'),
-              Icon(Icons.arrow_downward),
-            ],
-          ),
-          Row(
-            //comments
-            children: [
-              Icon(Icons.comment),
-              Text('50'),
-            ],
-          ),
-          Row(
-            // share
-
-            children: [
-              Icon(Icons.share),
-              Text('Share'),
-            ],
-          ),
-          Row(
-            //award
-            children: [
-              Icon(Icons.present_to_all),
-              Text('Award'),
-            ],
-          ),
-        ],
-      ));
-    }
-
-    Widget _buildPostItem() {
-      return (Column(
-        children: [
-          _buildUpperPart(),
-          Container(
-            height: 10,
-          ),
-          _buildTitlePart(),
-          Container(
-            height: 10,
-          ),
-          _buildContentPart(),
-          Container(
-            height: 10,
-          ),
-          _buildBottomPart()
-        ],
-      ));
+    Post _buildPostItem() {
+      final model = Provider.of<Model>(context, listen: false);
+      Post p = new Post();
+      model.see(p);
+      return p;
     }
 
     Widget _buildFeedItems() {
@@ -479,7 +392,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         actions: [
-          IconButton(icon: Icon(Icons.favorite), onPressed: () {}),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SavedScreen()
+                  )
+              );
+            },
+              icon: Icon(Icons.favorite),
+          ),
         ],
       ));
     }
